@@ -1,6 +1,8 @@
 export class Blog {
   constructor(
-    public author: string,
-    public body: string
+    public user: string,
+    public msgTxt: string,
+    public date: string,
+    public chatroom: string
   ) {  }
 }

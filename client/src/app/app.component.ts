@@ -13,8 +13,11 @@ import { BlogService } from "./blog.service";
 export class AppComponent {
   isSubmitted: boolean = false;
   title = 'MEAN app with Angular2';
-  model = new Blog("", "");
+  model = new Blog("", "", "", "");
+  public state = false;
+  public user = "";
   public blogMessages = [];
+  public chatroom = "";
 
   constructor (private http: Http, private blogService: BlogService) {}
 
@@ -24,10 +27,30 @@ export class AppComponent {
         blogMsg => {
           //console.log("Messages:",messages);
           this.model = blogMsg;
+          this.model.chatroom = this.chatroom;
+          this.model.user = this.user;
           this.getBlogs();
         },
         error =>  this.title = <any>error
       );
+  }
+
+  submitName() {
+    this.state = true;
+    this.user = this.model.user;
+    this.chatroom = this.model.chatroom;
+
+
+    console.log("Subscribe to service");
+    this.blogService.getBlogs()
+        .subscribe(
+            messages => {
+              //console.log("Messages:",messages);
+              this.blogMessages = messages;
+            },
+            error =>  this.title = <any>error
+        );
+
   }
 
   getBlogs() {
